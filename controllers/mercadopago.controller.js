@@ -111,13 +111,21 @@ const notification = (req, res) => {
 };
 
 const getNotifications = (req, res) => {
-	const { id } = req.params;
-	const notification = new NotificationsControl();
-	const notifications = notification.findDB({ id });
-	return res.json({
-		ok: true,
-		notifications,
-	});
+	try {
+		const { id } = req.params;
+		const notification = new NotificationsControl();
+		const notifications = notification.findDB({ id });
+		return res.json({
+			ok: true,
+			notifications,
+		});
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			ok: false,
+			msg: 'Hubo un error al obtener la notificacion',
+		});
+	}
 };
 
 module.exports = { createPreference, feedback, notification, getNotifications };
