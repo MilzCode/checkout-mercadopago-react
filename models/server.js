@@ -10,7 +10,6 @@ class Server {
 		};
 		this.middlewares();
 		this.routes();
-		console.log(path0);
 	}
 
 	routes() {
