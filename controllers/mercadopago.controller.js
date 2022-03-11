@@ -112,9 +112,9 @@ const notification = (req, res) => {
 
 const getNotifications = (req, res) => {
 	try {
-		const { id } = req.params;
+		const { pay_id } = req.params;
 		const notification = new NotificationsControl();
-		const notifications = notification.findDB({ id });
+		const notifications = notification.findDB({ pay_id });
 		return res.json({
 			ok: true,
 			notifications,
