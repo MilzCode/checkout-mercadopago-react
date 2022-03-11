@@ -126,11 +126,11 @@ const getNotifications = async (req, res) => {
 						},
 					}
 				);
-				const { status } = resp.data;
+				const data_pay = resp.data;
 				return res.json({
 					ok: true,
 					notifications,
-					status,
+					data_pay,
 				});
 			} catch (error) {
 				console.log(error);
