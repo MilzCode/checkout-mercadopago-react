@@ -13,7 +13,16 @@ const FRONT_URL = 'https://checkout-mp-react.herokuapp.com/';
 
 const createPreference = async (req, res) => {
 	try {
-		let { title, unit_price, quantity, idProd, desc, img, payer } = req.body;
+		let {
+			title,
+			unit_price,
+			quantity,
+			idProd,
+			desc,
+			picture_url,
+			payer,
+			external_reference,
+		} = req.body;
 		idProd = 1234;
 		unit_price = Number(unit_price);
 		quantity = Number(quantity);
@@ -21,13 +30,15 @@ const createPreference = async (req, res) => {
 		//Integrator ID
 		const preference = {
 			notification_url: NOTIFICATION_URL,
-			external_reference: 'brsmilanez@hotmail.com',
-
+			external_reference,
 			items: [
 				{
+					id: idProd,
 					title,
 					unit_price,
 					quantity,
+					description: desc,
+					picture_url,
 				},
 			],
 			payer,
@@ -35,9 +46,9 @@ const createPreference = async (req, res) => {
 			//Estas son las rutas a las que te redigira luego de pagar
 			//segun sea el caso.
 			back_urls: {
-				success: FRONT_URL,
-				failure: FRONT_URL,
-				pending: FRONT_URL,
+				success: FRONT_URL + 'success',
+				failure: FRONT_URL + 'failure',
+				pending: FRONT_URL + 'pending',
 			},
 			auto_return: 'approved',
 			payment_methods: {
@@ -55,6 +66,7 @@ const createPreference = async (req, res) => {
 				//max cuotas
 				installments: 6,
 			},
+			external_reference: '',
 			// binary_mode: true,
 		};
 		const addPreference = await mercadopago.preferences.create(preference);
