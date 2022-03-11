@@ -4,8 +4,8 @@ mercadopago.configure({
 	integrator_id: 'dev_24c65fb163bf11ea96500242ac130004',
 });
 
-const NOTIFICATION_URL =
-	'https://checkout-mp-react.herokuapp.com/api/mercadopago/notification';
+// const NOTIFICATION_URL = 'https://checkout-mp-react.herokuapp.com/api/mercadopago/notification';
+const NOTIFICATION_URL = 'https://checkout-mp-react.herokuapp.com/api/mercadopago/notification';
 const FRONT_URL = 'https://checkout-mp-react.herokuapp.com/';
 
 const createPreference = async (req, res) => {
@@ -84,9 +84,13 @@ const feedback = (req, res) => {
 const notification = (req, res) => {
 	try {
 		const { topic, id } = req.body;
-		console.log('notification:');
-		console.log({ topic, id });
-		console.log(req.body);
+		//param /?data.id=20795773028&type=payment
+		const { type, data } = req.query;
+		if (type) {
+			console.log('type', type);
+			console.log('data', data);
+			console.log(req.body);
+		}
 		return res.json({
 			ok: true,
 			topic,
