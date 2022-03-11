@@ -5,7 +5,7 @@ const { path0 } = require('../utils/const');
 class Server {
 	constructor() {
 		this.app = express();
-		this.port = 8080;
+		this.port = process.env.PORT || 8080;
 		this.rutas = {
 			mercadopago: '/api/mercadopago',
 		};
@@ -19,11 +19,6 @@ class Server {
 			this.rutas.mercadopago,
 			require('../routes/mercadopago.route')
 		);
-		//PUBLIC
-		this.app.get('*', (req, res) => {
-			//en caso de que la ruta no exista igual referenciamos al index
-			res.sendFile(path0 + '/public/index.html');
-		});
 	}
 	middlewares() {
 		this.app.use(express.static('public'));
