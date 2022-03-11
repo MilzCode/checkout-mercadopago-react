@@ -21,6 +21,7 @@ const createPreference = async (req, res) => {
 			desc,
 			picture_url,
 			payer,
+			external_reference,
 		} = req.body;
 		idProd = 1234;
 		unit_price = Number(unit_price);
@@ -29,7 +30,7 @@ const createPreference = async (req, res) => {
 		//Integrator ID
 		const preference = {
 			notification_url: NOTIFICATION_URL,
-			external_reference:"brsmilanez@hotmail.com",
+			external_reference,
 			items: [
 				{
 					id: idProd,
@@ -65,7 +66,6 @@ const createPreference = async (req, res) => {
 				//max cuotas
 				installments: 6,
 			},
-			external_reference: '',
 			// binary_mode: true,
 		};
 		const addPreference = await mercadopago.preferences.create(preference);
