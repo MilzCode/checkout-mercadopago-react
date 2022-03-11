@@ -122,6 +122,7 @@ const getNotifications = (req, res) => {
 					`https://api.mercadopago.com/v1/payments/${pay_id}`,
 					{
 						headers: {
+							accept: 'application/json',
 							Authorization: `Bearer ${process.env.ACCESS_TOKEN_MERCADOPAGO}`,
 						},
 					}
