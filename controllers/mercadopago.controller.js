@@ -1,11 +1,13 @@
 const mercadopago = require('mercadopago');
+const NotificationsControl = require('../db/notificationsmp');
 mercadopago.configure({
 	access_token: process.env.ACCESS_TOKEN_MERCADOPAGO,
 	integrator_id: 'dev_24c65fb163bf11ea96500242ac130004',
 });
 
 // const NOTIFICATION_URL = 'https://checkout-mp-react.herokuapp.com/api/mercadopago/notification';
-const NOTIFICATION_URL = 'https://checkout-mp-react.herokuapp.com/api/mercadopago/notification';
+const NOTIFICATION_URL =
+	'https://checkout-mp-react.herokuapp.com/api/mercadopago/notification';
 const FRONT_URL = 'https://checkout-mp-react.herokuapp.com/';
 
 const createPreference = async (req, res) => {
@@ -85,12 +87,12 @@ const notification = (req, res) => {
 	try {
 		const { topic, id } = req.body;
 		//param /?data.id=20795773028&type=payment
-		const { type, data } = req.query;
+		const { type } = req.query;
 		if (type) {
-			console.log('type', type);
-			console.log('data', data);
-			console.log(req.body);
+			const notification = new NotificationsControl();
+			notification.guardarDB({ element: req.body });
 		}
+
 		return res.json({
 			ok: true,
 			topic,
