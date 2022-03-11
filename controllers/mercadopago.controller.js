@@ -1,6 +1,7 @@
 const mercadopago = require('mercadopago');
 mercadopago.configure({
 	access_token: process.env.ACCESS_TOKEN_MERCADOPAGO,
+	integrator_id: 'dev_24c65fb163bf11ea96500242ac130004',
 });
 
 const NOTIFICATION_URL =
