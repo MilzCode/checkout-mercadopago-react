@@ -23,9 +23,9 @@ class NotificationsControl {
 		}
 		fs.writeFileSync(dbPath, JSON.stringify(this.data));
 	}
-	findDB({ id }) {
-		if (!id) return this.data;
-		return this.data.find((element) => element.id === id);
+	findDB({ pay_id }) {
+		if (!pay_id ) return this.data;
+		return this.data.find((element) => element.data.id === pay_id );
 	}
 }
 

@@ -90,7 +90,10 @@ const notification = (req, res) => {
 		const { type } = req.query;
 		if (type) {
 			const notification = new NotificationsControl();
-			notification.guardarDB({ element: req.body });
+			let notificacionReq = req.body;
+			if (notificacionReq && notificacionReq.action === 'payment.created') {
+				notification.guardarDB({ element: notificacionReq });
+			}
 		}
 
 		return res.json({
