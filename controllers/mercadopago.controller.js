@@ -111,18 +111,17 @@ const notification = (req, res) => {
 	}
 };
 
-const getNotifications = (req, res) => {
+const getNotifications = async (req, res) => {
 	try {
 		const { pay_id } = req.params;
 		const notification = new NotificationsControl();
 		const notifications = notification.findDB({ pay_id });
 		if (pay_id) {
 			try {
-				const resp = axios.get(
+				const resp = await axios.get(
 					`https://api.mercadopago.com/v1/payments/${pay_id}`,
 					{
 						headers: {
-							accept: 'application/json',
 							Authorization: `Bearer ${process.env.ACCESS_TOKEN_MERCADOPAGO}`,
 						},
 					}
