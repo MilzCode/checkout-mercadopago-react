@@ -1,3 +1,4 @@
+const { default: axios } = require('axios');
 const mercadopago = require('mercadopago');
 const NotificationsControl = require('../db/notificationsmp');
 mercadopago.configure({
@@ -115,6 +116,26 @@ const getNotifications = (req, res) => {
 		const { pay_id } = req.params;
 		const notification = new NotificationsControl();
 		const notifications = notification.findDB({ pay_id });
+		if (pay_id) {
+			try {
+				const resp = axios.get(
+					`https://api.mercadopago.com/v1/payments/${pay_id}`,
+					{
+						headers: {
+							Authorization: `Bearer ${process.env.ACCESS_TOKEN_MERCADOPAGO}`,
+						},
+					}
+				);
+				const { status } = resp.data;
+				return res.json({
+					ok: true,
+					notifications,
+					status,
+				});
+			} catch (error) {
+				console.log(error);
+			}
+		}
 		return res.json({
 			ok: true,
 			notifications,
