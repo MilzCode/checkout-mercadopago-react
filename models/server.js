@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const { path0 } = require('../utils/const');
 
 class Server {
 	constructor() {
