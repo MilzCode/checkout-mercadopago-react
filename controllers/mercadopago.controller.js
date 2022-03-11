@@ -107,4 +107,14 @@ const notification = (req, res) => {
 	}
 };
 
-module.exports = { createPreference, feedback, notification };
+const getNotifications = (req, res) => {
+	const { id } = req.params;
+	const notification = new NotificationsControl();
+	const notifications = notification.findDB({ id });
+	return res.json({
+		ok: true,
+		notifications,
+	});
+};
+
+module.exports = { createPreference, feedback, notification, getNotifications };
