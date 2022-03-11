@@ -21,7 +21,6 @@ const createPreference = async (req, res) => {
 			desc,
 			picture_url,
 			payer,
-			external_reference,
 		} = req.body;
 		idProd = 1234;
 		unit_price = Number(unit_price);
@@ -30,7 +29,7 @@ const createPreference = async (req, res) => {
 		//Integrator ID
 		const preference = {
 			notification_url: NOTIFICATION_URL,
-			external_reference,
+			external_reference:"brsmilanez@hotmail.com",
 			items: [
 				{
 					id: idProd,
