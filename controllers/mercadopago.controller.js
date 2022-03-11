@@ -3,14 +3,22 @@ mercadopago.configure({
 	access_token: process.env.ACCESS_TOKEN_MERCADOPAGO,
 });
 
+const NOTIFICATION_URL =
+	'https://checkout-mp-react.herokuapp.com/api/mercadopago/notification';
+const FRONT_URL = 'https://checkout-mp-react.herokuapp.com/';
+
 const createPreference = async (req, res) => {
 	try {
-		let { title, unit_price, quantity } = req.body;
-		unit_price = Number(unit_price) * 0.5;
+		let { title, unit_price, quantity, idProd, desc, img, payer } = req.body;
+		idProd = 1234;
+		unit_price = Number(unit_price);
 		quantity = Number(quantity);
+		//TODO: find producto and check price and stock!
+		//Integrator ID
 		const preference = {
-			// notification_url: process.env.NOTIFICATION_URL,
-			notification_url: 'https://nodeapp.free.beeceptor.com',
+			notification_url: NOTIFICATION_URL,
+			external_reference: 'brsmilanez@hotmail.com',
+
 			items: [
 				{
 					title,
@@ -18,16 +26,32 @@ const createPreference = async (req, res) => {
 					quantity,
 				},
 			],
+			payer,
 
 			//Estas son las rutas a las que te redigira luego de pagar
 			//segun sea el caso.
 			back_urls: {
-				success: 'http://localhost:8080/feedback',
-				failure: 'http://localhost:8080/feedback',
-				pending: 'http://localhost:8080/feedback',
+				success: FRONT_URL,
+				failure: FRONT_URL,
+				pending: FRONT_URL,
 			},
-			binary_mode: true,
 			auto_return: 'approved',
+			payment_methods: {
+				excluded_payment_methods: [
+					{
+						id: 'amex',
+					},
+				],
+				excluded_payment_types: [
+					{
+						// id: 'ticket',
+						id: 'atm',
+					},
+				],
+				//max cuotas
+				installments: 6,
+			},
+			// binary_mode: true,
 		};
 		const addPreference = await mercadopago.preferences.create(preference);
 		const id = addPreference.body.id;
@@ -56,4 +80,24 @@ const feedback = (req, res) => {
 	});
 };
 
-module.exports = { createPreference, feedback };
+const notification = (req, res) => {
+	try {
+		const { topic, id } = req.body;
+		console.log('notification:');
+		console.log({ topic, id });
+		console.log(req.body);
+		return res.json({
+			ok: true,
+			topic,
+			id,
+		});
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({
+			ok: false,
+			msg: 'Hubo un error al recibir la notificacion',
+		});
+	}
+};
+
+module.exports = { createPreference, feedback, notification };

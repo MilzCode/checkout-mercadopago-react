@@ -1,8 +1,13 @@
 const { Router } = require('express');
-const { createPreference } = require('../controllers/mercadopago.controller');
+const {
+	createPreference,
+	notification,
+} = require('../controllers/mercadopago.controller');
 const router = Router();
 
 router.post('/create_preference', createPreference);
+
+router.post('/notification', notification);
 
 //ONLY FOR DEVELOPMENT
 router.post('/create_user_test', async (req, res) => {
