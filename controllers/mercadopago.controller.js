@@ -67,7 +67,7 @@ const createPreference = async (req, res) => {
 			 "payer": {
         "name": "Juan",
         "surname": "Lopez",
-        "email": "user@email.com",
+        "email": "test_user_63274575@testuser.com",
         "phone": {
             "area_code": "11",
             "number": 44444444
