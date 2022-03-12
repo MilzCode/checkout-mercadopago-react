@@ -1,9 +1,3 @@
-// const mercadopago = require('mercadopago');
-// mercadopago.configure({
-// 	access_token: process.env.ACCESS_TOKEN_MERCADOPAGO,
-// 	integrator_id: 'dev_24c65fb163bf11ea96500242ac130004',
-// });
-
 const { default: axios } = require('axios');
 const NotificationsControl = require('../db/notificationsmp');
 
@@ -23,14 +17,10 @@ const createPreference = async (req, res) => {
 			title,
 			unit_price,
 			quantity,
-			idProd = '1234',
-			desc = 'descripcion',
+			idProd,
+			desc,
 			picture_url = 'https://picsum.photos/200/300',
-			payer = {
-				name: 'Juan Perez',
-				surname: 'Perez',
-				email: 'test_user_37333242@testuser.com',
-			},
+			payer,
 			external_reference = 'brsmilanez@hotmail.com',
 		} = req.body;
 		idProd = 1234;
@@ -45,7 +35,7 @@ const createPreference = async (req, res) => {
 				{
 					id: idProd,
 					title,
-					unit_price,
+					unit_price: parseFloat(unit_price),
 					quantity,
 					description: desc,
 					picture_url,
@@ -77,8 +67,7 @@ const createPreference = async (req, res) => {
 			payer,
 			// binary_mode: true,
 		};
-		// const addPreference = await mercadopago.preferences.create(preference);
-		// const id = addPreference.body.id;
+
 		const respMp = (
 			await axios.post(url_mp, preference, {
 				headers: {
@@ -88,10 +77,12 @@ const createPreference = async (req, res) => {
 		).data;
 
 		const id = respMp.id;
+		const init_point = respMp.init_point;
 
 		return res.json({
 			ok: true,
 			id,
+			init_point,
 		});
 	} catch (error) {
 		console.log(error);
