@@ -41,8 +41,6 @@ const createPreference = async (req, res) => {
 					picture_url,
 				},
 			],
-			payer,
-
 			//Estas son las rutas a las que te redigira luego de pagar
 			//segun sea el caso.
 			back_urls: {
@@ -66,6 +64,7 @@ const createPreference = async (req, res) => {
 				//max cuotas
 				installments: 6,
 			},
+			payer,
 			// binary_mode: true,
 		};
 		const addPreference = await mercadopago.preferences.create(preference);
