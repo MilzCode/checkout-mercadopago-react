@@ -2,8 +2,7 @@ const { default: axios } = require('axios');
 const NotificationsControl = require('../db/notificationsmp');
 
 // const NOTIFICATION_URL = 'https://checkout-mp-react.herokuapp.com/api/mercadopago/notification';
-const NOTIFICATION_URL =
-	'https://checkout-mp-react.herokuapp.com/api/mercadopago/notification';
+const NOTIFICATION_URL = process.env.NOTIFICATION_URL;
 const FRONT_URL = 'https://checkout-mp-react.herokuapp.com/';
 const url_mp =
 	'https://api.mercadopago.com/checkout/preferences?access_token=' +
@@ -106,6 +105,7 @@ const feedback = (req, res) => {
 
 const notification = (req, res) => {
 	try {
+		console.log("Noti")
 		const { topic, id } = req.body;
 		//param /?data.id=20795773028&type=payment
 		const { type } = req.query;
