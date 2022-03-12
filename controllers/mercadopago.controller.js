@@ -105,7 +105,6 @@ const feedback = (req, res) => {
 
 const notification = (req, res) => {
 	try {
-		console.log("Noti")
 		const { topic, id } = req.body;
 		//param /?data.id=20795773028&type=payment
 		const { type } = req.query;
