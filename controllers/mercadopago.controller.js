@@ -1,15 +1,15 @@
 const { default: axios } = require('axios');
-const mercadopago = require('mercadopago');
 const NotificationsControl = require('../db/notificationsmp');
-mercadopago.configure({
-	access_token: process.env.ACCESS_TOKEN_MERCADOPAGO,
-	integrator_id: 'dev_24c65fb163bf11ea96500242ac130004',
-});
 
 // const NOTIFICATION_URL = 'https://checkout-mp-react.herokuapp.com/api/mercadopago/notification';
 const NOTIFICATION_URL =
 	'https://checkout-mp-react.herokuapp.com/api/mercadopago/notification';
 const FRONT_URL = 'https://checkout-mp-react.herokuapp.com/';
+const url_mp =
+	'https://api.mercadopago.com/checkout/preferences?access_token=' +
+	process.env.ACCESS_TOKEN_MERCADOPAGO;
+
+const integrator_id = 'dev_24c65fb163bf11ea96500242ac130004';
 
 const createPreference = async (req, res) => {
 	try {
@@ -17,11 +17,15 @@ const createPreference = async (req, res) => {
 			title,
 			unit_price,
 			quantity,
-			idProd,
-			desc,
-			picture_url,
-			payer,
-			external_reference,
+			idProd = '1234',
+			desc = 'descripcion',
+			picture_url = 'https://picsum.photos/200/300',
+			payer = {
+				name: 'Juan Perez',
+				surname: 'Perez',
+				email: 'test_user_37333242@testuser.com',
+			},
+			external_reference = 'brsmilanez@hotmail.com',
 		} = req.body;
 		idProd = 1234;
 		unit_price = Number(unit_price);
@@ -67,12 +71,18 @@ const createPreference = async (req, res) => {
 			payer,
 			// binary_mode: true,
 		};
-		const addPreference = await mercadopago.preferences.create(preference);
-		const id = addPreference.body.id;
+		// const addPreference = await mercadopago.preferences.create(preference);
+		const respMp = await axios.post(url_mp, preference, {
+			headers: {
+				'x-integrator-id': integrator_id,
+			},
+		});
+		const id = respMp.data.id;
 		console.log('id creado', id);
 		return res.json({
 			ok: true,
 			id,
+			respMp,
 		});
 	} catch (error) {
 		console.log(error);
