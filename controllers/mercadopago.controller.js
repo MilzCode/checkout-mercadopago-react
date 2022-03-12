@@ -64,24 +64,7 @@ const createPreference = async (req, res) => {
 				//max cuotas
 				installments: 6,
 			},
-			 "payer": {
-        "name": "Juan",
-        "surname": "Lopez",
-        "email": "test_user_63274575@testuser.com",
-        "phone": {
-            "area_code": "11",
-            "number": 44444444
-        },
-        "identification": {
-            "type": "DNI",
-            "number": "12345678"
-        },
-        "address": {
-            "street_name": "Street",
-            "street_number": 123,
-            "zip_code": "5700"
-        }
-    },
+			payer,
 			// binary_mode: true,
 		};
 		const addPreference = await mercadopago.preferences.create(preference);
