@@ -1,3 +1,9 @@
+// const mercadopago = require('mercadopago');
+// mercadopago.configure({
+// 	access_token: process.env.ACCESS_TOKEN_MERCADOPAGO,
+// 	integrator_id: 'dev_24c65fb163bf11ea96500242ac130004',
+// });
+
 const { default: axios } = require('axios');
 const NotificationsControl = require('../db/notificationsmp');
 
@@ -72,17 +78,20 @@ const createPreference = async (req, res) => {
 			// binary_mode: true,
 		};
 		// const addPreference = await mercadopago.preferences.create(preference);
-		const respMp = await axios.post(url_mp, preference, {
-			headers: {
-				'x-integrator-id': integrator_id,
-			},
-		});
-		const id = respMp.data.id;
-		console.log('id creado', id);
+		// const id = addPreference.body.id;
+		const respMp = (
+			await axios.post(url_mp, preference, {
+				headers: {
+					'x-integrator-id': integrator_id,
+				},
+			})
+		).data;
+
+		const id = respMp.id;
+
 		return res.json({
 			ok: true,
 			id,
-			respMp,
 		});
 	} catch (error) {
 		console.log(error);
