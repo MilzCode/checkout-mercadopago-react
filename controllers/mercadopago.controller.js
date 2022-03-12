@@ -70,7 +70,7 @@ const createPreference = async (req, res) => {
         "email": "user@email.com",
         "phone": {
             "area_code": "11",
-            "number": "4444-4444"
+            "number": 44444444
         },
         "identification": {
             "type": "DNI",
